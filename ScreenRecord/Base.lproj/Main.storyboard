@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="L2K-h1-qxW">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="Xgh-Qh-bFn">
+            <objects>
+                <viewController id="L2K-h1-qxW" customClass="ViewController" customModule="DemoVideo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="l3e-0C-Y0B">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UCe-7d-Q5o">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XQr-eH-PXB">
+                                        <rect key="frame" x="0.0" y="33" width="414" height="342"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r3o-Rb-OdP">
+                                        <rect key="frame" x="0.0" y="30" width="140" height="151"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="r3o-Rb-OdP" secondAttribute="height" multiplier="140:151" id="Qo0-ti-9VD"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zkf-iC-UY2">
+                                        <rect key="frame" x="186.5" y="589" width="41" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Next"/>
+                                        <connections>
+                                            <action selector="NextBtnOnPressed:" destination="L2K-h1-qxW" eventType="touchUpInside" id="5Ia-Bp-IgA"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="XQr-eH-PXB" firstAttribute="top" secondItem="UCe-7d-Q5o" secondAttribute="top" constant="33" id="8ki-4V-czt"/>
+                                    <constraint firstAttribute="bottom" secondItem="r3o-Rb-OdP" secondAttribute="bottom" constant="637" id="Ryj-sY-Jj5"/>
+                                    <constraint firstItem="zkf-iC-UY2" firstAttribute="centerX" secondItem="UCe-7d-Q5o" secondAttribute="centerX" id="XKh-Pa-Sva"/>
+                                    <constraint firstItem="r3o-Rb-OdP" firstAttribute="leading" secondItem="UCe-7d-Q5o" secondAttribute="leading" id="cjl-mk-Lxm"/>
+                                    <constraint firstAttribute="bottom" secondItem="zkf-iC-UY2" secondAttribute="bottom" constant="193" id="clf-iV-NPD"/>
+                                    <constraint firstItem="zkf-iC-UY2" firstAttribute="top" secondItem="XQr-eH-PXB" secondAttribute="bottom" constant="214" id="hbG-aP-AXL"/>
+                                    <constraint firstItem="r3o-Rb-OdP" firstAttribute="top" secondItem="UCe-7d-Q5o" secondAttribute="top" constant="30" id="nMO-DK-w4w"/>
+                                    <constraint firstAttribute="trailing" secondItem="XQr-eH-PXB" secondAttribute="trailing" id="wIa-rm-PXi"/>
+                                    <constraint firstItem="XQr-eH-PXB" firstAttribute="leading" secondItem="UCe-7d-Q5o" secondAttribute="leading" id="xx5-Ak-4QR"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="CWf-l8-9c7"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="UCe-7d-Q5o" firstAttribute="top" secondItem="CWf-l8-9c7" secondAttribute="top" id="B7Z-Bd-E9L"/>
+                            <constraint firstItem="CWf-l8-9c7" firstAttribute="bottom" secondItem="UCe-7d-Q5o" secondAttribute="bottom" id="BES-VB-SBv"/>
+                            <constraint firstItem="CWf-l8-9c7" firstAttribute="trailing" secondItem="UCe-7d-Q5o" secondAttribute="trailing" id="InC-g5-PKt"/>
+                            <constraint firstItem="UCe-7d-Q5o" firstAttribute="leading" secondItem="CWf-l8-9c7" secondAttribute="leading" id="Zob-Vf-y0o"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="CameraView" destination="r3o-Rb-OdP" id="53B-A6-hVO"/>
+                        <outlet property="NextBtn" destination="zkf-iC-UY2" id="z07-ay-8Wc"/>
+                        <outlet property="PlayerView" destination="XQr-eH-PXB" id="YPG-9z-3Dz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6IL-UX-OVO" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-362" y="-172"/>
+        </scene>
+        <!--Camera View Controller-->
+        <scene sceneID="jDh-dE-IL2">
+            <objects>
+                <viewController storyboardIdentifier="CameraViewController" id="oON-Ki-EIc" customClass="CameraViewController" customModule="DemoVideo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KlE-2g-oN1">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="oTC-Cd-geD"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mYm-kx-hx6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="488" y="-172"/>
+        </scene>
+        <!--Video View Controller-->
+        <scene sceneID="92S-Nw-7uk">
+            <objects>
+                <viewController storyboardIdentifier="VideoViewController" id="vcq-7c-Bov" customClass="VideoViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dIC-vF-0Lg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oQa-3i-JcS">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="GjD-x2-5Zz"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="oQa-3i-JcS" firstAttribute="trailing" secondItem="GjD-x2-5Zz" secondAttribute="trailing" id="TE9-ql-otj"/>
+                            <constraint firstItem="GjD-x2-5Zz" firstAttribute="bottom" secondItem="oQa-3i-JcS" secondAttribute="bottom" id="cAq-0Z-XeI"/>
+                            <constraint firstItem="oQa-3i-JcS" firstAttribute="top" secondItem="GjD-x2-5Zz" secondAttribute="top" id="tyX-v3-yff"/>
+                            <constraint firstItem="oQa-3i-JcS" firstAttribute="leading" secondItem="GjD-x2-5Zz" secondAttribute="leading" id="yeO-Wn-7uS"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="VideoView" destination="oQa-3i-JcS" id="354-6n-Thz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pHn-d7-n9C" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1304" y="-172"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
