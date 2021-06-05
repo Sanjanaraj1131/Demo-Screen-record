@@ -27,7 +27,7 @@ class VideoViewController: UIViewController {
     }
     
     @objc func playerItemDidReachEnd(notification: NSNotification) {
-    exit(0)
+    //exit(0)
     }
 
 }
