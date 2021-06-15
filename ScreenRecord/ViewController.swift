@@ -59,6 +59,8 @@ class ViewController: UIViewController,RPPreviewViewControllerDelegate {
         }*/
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name("isbackground"), object: nil)
+        notificationCenter.addObserver(self, selector: #selector(reinitializePlayerLayer), name: Notification.Name("isOnline"), object: nil)
+                notificationCenter.addObserver(self, selector: #selector(ResignActive), name: Notification.Name("ResignActive"), object: nil)
         //NotificationCenter.default.addObserver(self, selector: #selector(handleInterruption(notification:)), name: AVAudioSession.interruptionNotification, object: nil)
         
         // Do any additional setup after loading the view.
@@ -75,7 +77,48 @@ class ViewController: UIViewController,RPPreviewViewControllerDelegate {
         notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: Notification.Name("isOnline"), object: nil)
     }
     
-    
+    // foreground event
+        @objc fileprivate func reinitializePlayerLayer(){
+            print("App in foreground")
+            
+            if let player = videoPlayer{
+                
+                playerLayerAV = AVPlayerLayer(player: player)
+                
+                if #available(iOS 10.0, *) {
+                    if player.timeControlStatus == .paused{
+                        print("App in foreground player is playing")
+                        
+                            player.play()
+                            self.setupAVCapture()
+                            self.startRecordingVideo()
+                        }
+                    
+                } else {
+                    // if app is running on iOS 9 or lower
+                    if player.timeControlStatus == .paused{
+                        print("player is playing")
+                        player.play()
+                    }
+                }
+            }
+        }
+        
+        //background Event
+        @objc fileprivate func setPlayerLayerToNil(){
+            // first pause the player before setting the playerLayer to nil. The pause works similar to a stop button
+            
+            videoPlayer?.pause()
+            playerLayerAV = nil
+        }
+        
+        @objc fileprivate func ResignActive(){
+            if videoPlayer.timeControlStatus == .playing{
+                self.stopCamera()
+                self.stopRecordingVideo()
+                //self.need_merge = 1
+            }
+        }
 
     @objc func handleInterruption(notification: Notification) {
         guard let info = notification.userInfo,
@@ -124,22 +167,10 @@ class ViewController: UIViewController,RPPreviewViewControllerDelegate {
     
     @objc func appMovedToBackground() {
         print("App moved to Background!")
-        //videoPlayer.remove(self.playerItem)
-        videoPlayer?.pause()
-        //playerLayerAV = nil
-        //playerItem = AVPlayerItem(asset: myAsset)
-        //videoPlayer = nil
-        //videoPlayer = AVQueuePlayer()
-       // videoPlayer.removeAllItems()
-       // playerItems.removeAll()
-        print(playerItems)
-        //videoPlayer?.replaceCurrentItem(with: playerItem)
-        //self.stopRecordingVideo()
-        self.stopCamera()
+        self.play_video()
+        self.setupAVCapture()
+        self.startRecordingVideo()
         
-        //play_video()
-        //self.setupAVCapture()
-        //self.start_recording()
     }
     
     func play_video(){

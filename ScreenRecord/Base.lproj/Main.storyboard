@@ -11,7 +11,7 @@
         <!--View Controller-->
         <scene sceneID="Xgh-Qh-bFn">
             <objects>
-                <viewController id="L2K-h1-qxW" customClass="ViewController" customModule="DemoVideo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="L2K-h1-qxW" customClass="ViewController" customModule="ScreenRecord" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="l3e-0C-Y0B">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -75,7 +75,7 @@
         <!--Camera View Controller-->
         <scene sceneID="jDh-dE-IL2">
             <objects>
-                <viewController storyboardIdentifier="CameraViewController" id="oON-Ki-EIc" customClass="CameraViewController" customModule="DemoVideo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CameraViewController" id="oON-Ki-EIc" customClass="CameraViewController" customModule="ScreenRecord" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KlE-2g-oN1">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
