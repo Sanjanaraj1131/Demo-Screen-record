@@ -43,133 +43,60 @@ class ViewController: UIViewController,RPPreviewViewControllerDelegate {
     var captureDevice : AVCaptureDevice!
     let session = AVCaptureSession()
     var previewView : UIView!
+    var foreground = 0
     override func viewDidLoad() {
         super.viewDidLoad()
-        play_video()
-        self.setupAVCapture()
-        self.startRecordingVideo()
-
         
-      //  screenRecord.viewOverlay.stopButtonColor = UIColor.red
-      /*  let randomNumber = arc4random_uniform(9999);
-        screenRecord.startRecording(withFileName: "coolScreenRecording\(randomNumber)", recordingHandler: { (error) in
-           // print("Recording in progress")
-        }) { (error) in
-            print("Recording Complete")
-        }*/
+        
+
+  
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name("isbackground"), object: nil)
-        notificationCenter.addObserver(self, selector: #selector(reinitializePlayerLayer), name: Notification.Name("isOnline"), object: nil)
-                notificationCenter.addObserver(self, selector: #selector(ResignActive), name: Notification.Name("ResignActive"), object: nil)
-        //NotificationCenter.default.addObserver(self, selector: #selector(handleInterruption(notification:)), name: AVAudioSession.interruptionNotification, object: nil)
-        
-        // Do any additional setup after loading the view.
+        notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: Notification.Name("isOnline"), object: nil)
+       
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         let notificationCenter = NotificationCenter.default
         notificationCenter.removeObserver(self)
+       
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: Notification.Name("isOnline"), object: nil)
+        //notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: Notification.Name("isOnline"), object: nil)
     }
     
-    // foreground event
-        @objc fileprivate func reinitializePlayerLayer(){
-            print("App in foreground")
-            
-            if let player = videoPlayer{
-                
-                playerLayerAV = AVPlayerLayer(player: player)
-                
-                if #available(iOS 10.0, *) {
-                    if player.timeControlStatus == .paused{
-                        print("App in foreground player is playing")
-                        
-                            player.play()
-                            self.setupAVCapture()
-                            self.startRecordingVideo()
-                        }
-                    
-                } else {
-                    // if app is running on iOS 9 or lower
-                    if player.timeControlStatus == .paused{
-                        print("player is playing")
-                        player.play()
-                    }
-                }
-            }
-        }
+    
         
-        //background Event
-        @objc fileprivate func setPlayerLayerToNil(){
-            // first pause the player before setting the playerLayer to nil. The pause works similar to a stop button
-            
-            videoPlayer?.pause()
-            playerLayerAV = nil
-        }
+       
         
-        @objc fileprivate func ResignActive(){
-            if videoPlayer.timeControlStatus == .playing{
-                self.stopCamera()
-                self.stopRecordingVideo()
-                //self.need_merge = 1
-            }
-        }
+        
 
-    @objc func handleInterruption(notification: Notification) {
-        guard let info = notification.userInfo,
-              let typeValue = info[AVAudioSessionInterruptionTypeKey] as? UInt,
-              let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
-            return
-        }
-        if type == .began {
-            // Interruption began, take appropriate actions (save state, update user interface)
-            self.videoPlayer.pause()
-            self.stopCamera()
-            //self.stopRecordingVideo()
-        } else if type == .ended {
-            guard let optionsValue =
-                    info[AVAudioSessionInterruptionOptionKey] as? UInt else {
-                return
-            }
-            let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
-            if options.contains(.shouldResume) {
-                // Interruption Ended - playback should resume
-                videoPlayer.play()
-                self.setupAVCapture()
-                do {
-                    try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.multiRoute)
-                } catch let error as NSError {
-                    print(error)
-                }
-                
-                do {
-                    try AVAudioSession.sharedInstance().setActive(true)
-                } catch let error as NSError {
-                    print(error)
-                }
-                //self.startRecordingVideo()
-            }
-        }
-    }
+    
     
     @objc func appMovedToForeground() {
         print("App moved to Forground!")
-        //play_video()
-        videoPlayer.play()
-        self.setupAVCapture()
-        self.startRecordingVideo()
+        
+        //if foreground == 1{
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.play_video()
+            self.setupAVCapture()
+            self.startRecordingVideo()
+        }
+        //}
+        
     }
     
     @objc func appMovedToBackground() {
         print("App moved to Background!")
-        self.play_video()
-        self.setupAVCapture()
-        self.startRecordingVideo()
+        videoPlayer.pause()
+        playerItems.removeAll()
+       // playerLayerAV = nil
+        self.stopCamera()
+        self.stopRecordingVideo(id: 0)
+        //self.foreground = 1
         
     }
     
@@ -308,11 +235,11 @@ class ViewController: UIViewController,RPPreviewViewControllerDelegate {
 
            }, completionHandler: {
                error in
-               print("COMP HANDLER ERROR", error?.localizedDescription)
+               //print("COMP HANDLER ERROR", error?.localizedDescription)
            })
     }
 
-    private func stopRecordingVideo(){
+    private func stopRecordingVideo(id:Int){
         self.startSession = false
         RPScreenRecorder.shared().stopCapture{ (error) in
             self.videoWriterInput?.markAsFinished()
@@ -324,10 +251,16 @@ class ViewController: UIViewController,RPPreviewViewControllerDelegate {
                     print("FINISHED WRITING!")
                     DispatchQueue.main.async {
                         print(self.videoOutputURL)
-                        let vc = self.storyboard?.instantiateViewController(withIdentifier: "VideoViewController") as! VideoViewController
-                        vc.modalPresentationStyle = .fullScreen
-                        vc.Video_url = self.videoOutputURL
-                        self.present(vc, animated: true, completion: nil)
+                        if id == 1{
+                            let vc = self.storyboard?.instantiateViewController(withIdentifier: "VideoViewController") as! VideoViewController
+                            vc.modalPresentationStyle = .fullScreen
+                            vc.Video_url = self.videoOutputURL
+                            self.present(vc, animated: true, completion: nil)
+                        }
+                        else{
+                            print(self.videoOutputURL)
+                        }
+                       //
                        
                        // self.setUpVideoPreview()
                     }
@@ -380,7 +313,7 @@ class ViewController: UIViewController,RPPreviewViewControllerDelegate {
         if current_track == playerItems.count{
             NextBtn.isEnabled = true
             NextBtn.setTitle("Finish", for: .normal)
-            stopRecordingVideo()
+            stopRecordingVideo(id: 1)
            }
         else{
             NextBtn.isEnabled = false
